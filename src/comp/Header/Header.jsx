@@ -1,4 +1,4 @@
-import SolarSystem from "../sso/SSO";
+import SolarSystem from "../../sso/SSO";
 import "./Header.css";
 
 // Header component extracted from APP.js to its own file

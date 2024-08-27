@@ -1,6 +1,6 @@
 import { CORE_CONCEPTS } from "./data";
-import Header from "./comp/Header";
-import CoreConcept from "./comp/CoreCo";
+import Header from "./comp/Header/Header";
+import CoreConcept from "./comp/CoreCo/CoreCo";
 
 // -------------------
 
