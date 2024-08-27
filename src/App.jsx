@@ -1,5 +1,5 @@
 import { CORE_CONCEPTS } from "./data";
-import { Header } from "./comp/Header";
+import Header from "./comp/Header";
 
 // -------------------
 
