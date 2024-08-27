@@ -55,7 +55,7 @@ main h2 {
   border: none;
   border-radius: 6px;
   background-color: transparent;
-  color: #a18aba;
+  color: #c8abe8;
   font-family: "Roboto Condensed", sans-serif;
   font-size: 1rem;
   cursor: pointer;
@@ -68,7 +68,7 @@ main h2 {
 }
 
 #examples menu button.active {
-  background-color: #7925d3;
+  background-color: #9644ed;
   color: #ebe7ef;
 }
 
