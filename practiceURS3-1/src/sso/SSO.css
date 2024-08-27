@@ -1,0 +1,401 @@
+:root {
+  --pov: 66deg;
+  --bg-color: #111;
+  --day-duration: 8s;
+  --sunlight-offset: -2.5s;
+  --orbit-sphere-color: hsla(260, 80%, 60%, 0.6);
+  --orbit-line-color: hsl(260 50% 70%);
+  --orbit-line-thickness: 0.15rem;
+  --orbit-plane-color: radial-gradient(
+    circle at center,
+    hsla(250, 70%, 75%, 0.05),
+    hsla(250, 70%, 75%, 0.2)
+  );
+  --moon-orbit-size: 13dvmin;
+  --mercury-orbit-size: 26dvmin;
+  --venus-orbit-size: 39dvmin;
+  --sun-orbit-size: 52dvmin;
+  --mars-orbit-size: 65dvmin;
+  --jupiter-orbit-size: 78dvmin;
+  --saturn-orbit-size: 91dvmin;
+}
+
+body {
+  /* height: 100dvh; */
+  margin: 0;
+  /* background: var(--bg-color); */
+}
+
+.universe {
+  height: 100%;
+  perspective: 50000px;
+  translate: 0 -5%;
+  position: relative;
+  transform: scale(0.3);
+}
+
+/* orbit line */
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--size, 30dvmin);
+  height: var(--size, 30dvmin);
+  border-radius: 50%;
+  background: var(--orbit-plane-color);
+  box-shadow: 0 0 0 var(--orbit-line-thickness) var(--orbit-line-color);
+  transform-style: preserve-3d;
+  rotate: x var(--pov);
+  translate: -50% -40%;
+  opacity: 0;
+  animation: orbit-appear 1.5s var(--enter-delay, 0.1s) forwards;
+}
+
+@keyframes orbit-appear {
+  to {
+    opacity: 1;
+    translate: -50% -50%;
+  }
+}
+
+/* orbit semi-sphere */
+.orbit::after {
+  --cutout: calc(var(--size) / 2 + var(--orbit-line-thickness));
+  content: "";
+  position: absolute;
+  top: -75%;
+  left: calc(-1 * var(--orbit-line-thickness));
+  width: calc(100% + var(--orbit-line-thickness) * 2);
+  height: 250%;
+  background: radial-gradient(
+    circle var(--cutout) at center,
+    #0000 99.9%,
+    var(--orbit-sphere-color)
+  );
+  border-radius: 50%;
+  clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+}
+
+.orbit.moon {
+  --size: var(--moon-orbit-size);
+  --enter-delay: 0.1s;
+}
+
+.orbit.mercury {
+  --size: var(--mercury-orbit-size);
+  --enter-delay: 0.25s;
+}
+
+.orbit.venus {
+  --size: var(--venus-orbit-size);
+  --enter-delay: 0.4s;
+}
+
+.orbit.sun {
+  --size: var(--sun-orbit-size);
+  --enter-delay: 0.55s;
+}
+
+.orbit.mars {
+  --size: var(--mars-orbit-size);
+  --enter-delay: 0.7s;
+}
+
+.orbit.jupiter {
+  --size: var(--jupiter-orbit-size);
+  --enter-delay: 0.85s;
+}
+
+.orbit.saturn {
+  --size: var(--saturn-orbit-size);
+  --enter-delay: 1s;
+}
+
+.body,
+.body-container {
+  --circular-ease: cubic-bezier(0.37, 0, 0.63, 1);
+  --circle-delay: calc(var(--day-duration) / 3.97);
+  --reveal-delay: 1s;
+  content: "";
+  position: absolute;
+  left: calc(50% + var(--astronomical-unit));
+  top: 0;
+  opacity: 0;
+  translate: -50% calc(-50% - (50% * sin(var(--pov))));
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(
+    circle at center,
+    var(--color-1, darkgray),
+    var(--color-2, #333) 70%
+  );
+  background-size: 300%;
+  background-position: center;
+  border-radius: 50%;
+  animation: body-reveal 1.5s var(--reveal-delay) forwards,
+    body-index var(--day-duration) -1s infinite,
+    body-shine var(--day-duration) var(--shine-delay, 0s) linear infinite,
+    body-move-x var(--day-duration)
+      calc(var(--variation-delay, 0s) + var(--reveal-delay)) infinite
+      var(--circular-ease),
+    body-move-y var(--day-duration)
+      calc(
+        var(--variation-delay, 0s) + var(--reveal-delay) - var(--circle-delay)
+      )
+      infinite var(--circular-ease);
+}
+
+@keyframes body-reveal {
+  to {
+    top: calc(50% + var(--astronomical-unit) * cos(var(--pov)));
+    opacity: 1;
+  }
+}
+
+@keyframes body-index {
+  25%,
+  66% {
+    z-index: var(--inverse-index);
+  }
+  67% {
+    z-index: 0;
+  }
+}
+
+@keyframes body-shine {
+  to {
+    background-position-x: -100%;
+  }
+}
+
+@keyframes body-move-x {
+  50% {
+    left: calc(50% - var(--astronomical-unit));
+  }
+}
+
+@keyframes body-move-y {
+  50% {
+    top: calc(50% - var(--astronomical-unit) * cos(var(--pov)));
+  }
+}
+
+.body.earth {
+  --size: 4dvmin;
+  --color-1: skyblue;
+  --color-2: mediumblue;
+  --astronomical-unit: 0%;
+  --inverse-index: 8;
+  --shine-delay: calc(
+    var(--sunlight-offset) + var(--variation-delay, 0s) - var(--reveal-delay)
+  );
+  animation: body-reveal 1s var(--reveal-delay) forwards,
+    body-index var(--day-duration) -1s infinite,
+    body-shine var(--day-duration) var(--shine-delay) linear infinite;
+}
+
+.body.moon {
+  --size: 2dvmin;
+  --color-1: #eee;
+  --color-2: #333;
+  --astronomical-unit: calc(var(--moon-orbit-size) / 2);
+  --inverse-index: 7;
+  --shine-delay: calc(
+    var(--sunlight-offset) + var(--variation-delay, 0s) - var(--reveal-delay)
+  );
+}
+
+.body.mercury {
+  --size: 2dvmin;
+  --color-1: #fea;
+  --color-2: #530;
+  --astronomical-unit: calc(var(--mercury-orbit-size) / 2);
+  --inverse-index: 6;
+  --orbit-offset: 4s;
+  --variation-delay: -1s;
+  --shine-delay: calc(
+    var(--sunlight-offset) + var(--variation-delay, 0s) - var(--reveal-delay)
+  );
+}
+
+.body.venus {
+  --size: 4dvmin;
+  --color-1: #fea;
+  --color-2: #650;
+  --astronomical-unit: calc(var(--venus-orbit-size) / 2);
+  --inverse-index: 5;
+  --variation-delay: -3s;
+  --shine-delay: -2.5s;
+}
+
+.body.sun {
+  --size: 6dvmin;
+  --color-1: yellow;
+  --color-2: orangered;
+  --astronomical-unit: calc(var(--sun-orbit-size) / 2);
+  --inverse-index: 4;
+  --variation-delay: -2.5s;
+  box-shadow: 0 0 2rem orange;
+  /* all animations except shine */
+  animation: body-reveal 1.5s var(--reveal-delay) forwards,
+    body-index var(--day-duration) -1s infinite,
+    body-move-x var(--day-duration)
+      calc(var(--variation-delay, 0s) + var(--reveal-delay)) infinite
+      var(--circular-ease),
+    body-move-y var(--day-duration)
+      calc(
+        var(--variation-delay, 0s) + var(--reveal-delay) - var(--circle-delay)
+      )
+      infinite var(--circular-ease);
+}
+
+.body.sun::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  height: 140%;
+  translate: -50% -50%;
+  background: repeating-conic-gradient(
+    from 45deg at center,
+    #fd03 0deg 5deg,
+    transparent 7deg 17deg,
+    #fa03 19deg 24deg,
+    transparent 26deg 36deg
+  );
+  mix-blend-mode: overlay;
+  filter: blur(0.1rem);
+  border-radius: 50%;
+}
+
+.body.mars {
+  --size: 3dvmin;
+  --color-1: darkorange;
+  --color-2: #750;
+  --astronomical-unit: calc(var(--mars-orbit-size) / 2);
+  --inverse-index: 3;
+  --variation-delay: -7s;
+  --shine-delay: -3.5s;
+}
+
+.body.jupiter {
+  --size: 5dvmin;
+  --color-1: #fea;
+  --color-2: #321;
+  --astronomical-unit: calc(var(--jupiter-orbit-size) / 2);
+  --inverse-index: 2;
+  --variation-delay: -6s;
+  --shine-delay: -3s;
+}
+
+.body-container.saturn {
+  --size: 5dvmin;
+  --color-1: #fea;
+  --color-2: #531;
+  --astronomical-unit: calc(var(--saturn-orbit-size) / 2);
+  --inverse-index: 1;
+  --variation-delay: -1.5s;
+  --shine-delay: -6s;
+  --ring-a-size: 180%;
+  --ring-a-color: var(--color-1);
+  --ring-b-size: 200%;
+  --ring-b-color: var(--color-1);
+}
+
+/* Duplicated planet body inside container to obscure rings */
+.body-container.saturn .body-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: inherit;
+}
+
+/*
+   * Split each ring in half,
+   * so that one half can be obscured by the planet body
+   * Fixing the z-index problem with pseudo-elements
+   */
+.body-container.saturn::before,
+.body-container.saturn::after,
+.body-container.saturn .ring-far {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  rotate: x var(--pov);
+  border-radius: 50%;
+}
+
+.body-container.saturn::before,
+.body-container.saturn::after {
+  content: "";
+  z-index: 1;
+  translate: -50% -50%;
+  clip-path: polygon(0 100%, 100% 100%, 100% 50%, 0 50%);
+}
+
+.body-container.saturn .ring-far {
+  translate: -50% -49%;
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+}
+
+.body-container.saturn::before,
+.body-container.saturn .ring-far.a {
+  width: var(--ring-a-size);
+  height: var(--ring-a-size);
+  background: radial-gradient(
+    circle calc(var(--size) / 1.5) at center,
+    #0000 99.9%,
+    var(--ring-a-color)
+  );
+}
+
+.body-container.saturn::after,
+.body-container.saturn .ring-far.b {
+  width: var(--ring-b-size);
+  height: var(--ring-b-size);
+  background: radial-gradient(
+    circle calc(var(--size) / 1.05) at center,
+    #0000 99.9%,
+    var(--ring-b-color)
+  );
+}
+
+.body-container.saturn .shadow {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  background: radial-gradient(
+    ellipse 30px 90px at center,
+    #0000 18%,
+    #000c 18.1%
+  );
+  width: 100%;
+  height: 75%;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  rotate: x var(--pov);
+  translate: 0 -50%;
+  border-radius: 30%;
+  border-top-right-radius: 50% 100%;
+  border-bottom-right-radius: 50% 100%;
+  clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+  animation: saturn-shadow var(--day-duration) linear infinite;
+}
+
+@keyframes saturn-shadow {
+  to {
+    transform: rotateZ(-1turn);
+  }
+  6%,
+  44% {
+    z-index: 0;
+  }
+  44.1% {
+    z-index: 2;
+  }
+}
