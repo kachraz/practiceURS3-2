@@ -41,7 +41,10 @@ function Header() {
       <h1>{description} Essentials</h1>
       <p>
         {description}👄 panty concepts you will need for almost any app you are
-        going to build!
+        going to build! -{" "}
+        <span style={{ color: "yellow" }}>
+          2nd attempt for further learning
+        </span>
       </p>
     </header>
   );
