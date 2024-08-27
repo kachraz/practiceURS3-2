@@ -19,3 +19,18 @@ npm install && npm run dev
 2. Got SolarySystem from [here](https://codepen.io/pavlovsk/pen/jOjKEJq) - Removed the bg and changed the size with a transform. And placed inside `app.jsx`
 3. Props for passing data into components
 4. Convention for naming compoenent `jsx` files is based on the component
+5. Functiont that are inside a component are called `handler function` eg:
+
+```react
+export default MyComponent() {
+
+    // handlerFunction
+    function handleClick() {
+        console.log("Sniff)
+    }
+
+    return (
+        <button onclick={handleClick}></button>
+    )
+}
+```
