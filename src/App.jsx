@@ -13,12 +13,12 @@ import { EXAMPLES } from "./comp/TabComponents/data-with-example.js";
 // Header Function
 
 function App() {
-  const [slectedTopic, setSelectedTopic] = useState("Please Click a button");
+  const [selectedTopic, setSelectedTopic] = useState("components");
 
   function handleSelect(selectedButton) {
     //
     setSelectedTopic(selectedButton);
-    console.log(slectedTopic);
+    console.log(selectedTopic);
   }
 
   console.log("APP Executing");
@@ -39,14 +39,14 @@ function App() {
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            <TabButton onSelect={() => handleSelect("components-hahah")}>
+            <TabButton onSelect={() => handleSelect("components")}>
               Components
             </TabButton>
             <TabButton onSelect={() => handleSelect("jsx")}>JSX</TabButton>
             <TabButton onSelect={() => handleSelect("props")}>Props</TabButton>
             <TabButton onSelect={() => handleSelect("state")}>State</TabButton>
           </menu>
-          <div id="tab-component">
+          <div id="tab-content">
             <h3>{EXAMPLES[selectedTopic].title}</h3>
             <p>{EXAMPLES[selectedTopic].description}</p>
             <pre>
