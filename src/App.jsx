@@ -1,7 +1,7 @@
 import { CORE_CONCEPTS } from "./data";
 import Header from "./comp/Header/Header";
 import CoreConcept from "./comp/CoreCo/CoreCo";
-import TabButton from "./TabButton.";
+import TabButton from "./comp/TabComponents/TabButton.";
 
 // -------------------
 
