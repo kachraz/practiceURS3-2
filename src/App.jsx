@@ -15,7 +15,10 @@ function App() {
   function handleSelect(selectedButton) {
     //
     tabContent = selectedButton;
+    console.log(tabContent);
   }
+
+  console.log("APP Executing");
 
   return (
     <div>
