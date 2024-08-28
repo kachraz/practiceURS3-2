@@ -10,9 +10,11 @@ import TabButton from "./comp/TabComponents/TabButton.";
 // Header Function
 
 function App() {
+  let tabContent = "Pls Click Button";
+
   function handleSelect(selectedButton) {
     //
-    console.log(selectedButton);
+    tabContent = selectedButton;
   }
 
   return (
@@ -38,7 +40,7 @@ function App() {
             <TabButton onSelect={() => handleSelect("props")}>Props</TabButton>
             <TabButton onSelect={() => handleSelect("state")}>State</TabButton>
           </menu>
-          Dynamic Contents Heres
+          {tabContent}
         </section>
       </main>
     </div>
